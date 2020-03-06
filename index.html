@@ -1,0 +1,116 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="estilos.css" media="screen" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="js/jquery-2.1.1.min.js"></script>
+</head>
+
+<body>
+    <table class="table table-bordered" id="tablaprueba">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col" id="agregarFila">Agregar
+                </th>
+            </tr>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col" id="eliminarFila">Eliminar</th>
+            </tr>
+            <tr>
+                <th scope="col">Codigo</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Notas</th>
+                <th scope="col">Edad</th>
+                <th scope="col" style="width: 20%;">
+                    <input type="text" id="codigo" placeholder="Codigo">
+                    <br>
+                    <br>
+                    <input type="button" id="btnBuscar" value="Buscar">
+                </th>
+            </tr>
+        </thead>
+    </table>
+
+
+</body>
+
+</html>
+
+<script>
+    $(document).ready(function() {
+        $('#agregarFila').click(function() {
+            agregar();
+        });
+        $('#eliminarFila').click(function() {
+            eliminar(id_fila_selected);
+        });
+        $('#btnBuscar').click(function() {
+            var cod = document.getElementById('codigo').value;
+            buscarEstudiante(cod);
+        });
+    });
+
+
+    var cont = 0;
+    var id_fila_selected = [];
+
+
+    function buscarEstudiante(id_fila) {
+
+         for (f = 1; f <= cont+1; f++) 
+        {
+            fila = document.getElementById("fila" + f);
+            if (fila.style.backgroundColor == "yellow") {                
+                document.getElementById("fila" + f).style.backgroundColor = "white";
+            }
+          
+            else {
+                document.getElementById("fila" + id_fila).style.backgroundColor = "yellow";
+            }
+        }        
+    }
+
+    function agregar() {
+        cont++;
+        var fila = '<tr class="selected" id="fila' + cont + '" onclick="seleccionar(this.id);"><td>' + cont + '<td style="max-width: 10px;" > <input type="text"  size="10"> </td>  <td style="max-width: 10px;"> <input type="text" size="10"> </td><td style="max-width: 10px;"> <input type="text" size="10" id="campo3"> </td><td style="max-width: 10px;"> <input type="text" size="10"> </td>';
+        $('#tablaprueba').append(fila);
+        reordenar();
+    }
+
+    function reordenar() {
+        var num = 1;
+        $('#tablaprueba tbody tr').each(function() {
+            $(this).find('td').eq(0).text(num);
+            num++;
+        });
+    }
+
+    function seleccionar(id_fila) {
+        if ($('#' + id_fila).hasClass('seleccionada')) {
+            $('#' + id_fila).removeClass('seleccionada');
+        } else {
+            $('#' + id_fila).addClass('seleccionada');
+        }
+
+        id_fila_selected.push(id_fila);
+    }
+
+    function eliminar(id_fila) {
+        for (var i = 0; i < id_fila.length; i++) {
+            $('#' + id_fila[i]).remove();
+        }
+        reordenar();
+    }
+</script>
